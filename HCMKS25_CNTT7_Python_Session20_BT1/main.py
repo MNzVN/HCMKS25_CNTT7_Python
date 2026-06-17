@@ -1,28 +1,42 @@
-data = [
+# Dữ liệu
+player_stats_list = [
     ("Faker", "10", "2", "8"),
     ("ShowMaker", "15", "0", "10"),
     ("Chovy", "12", "ba", "5")
 ]
 
-def calculate_kda(kill : int, death : int, assist : int) -> int:
-    try:
-        kill = int(kill)
-        death = int(death)
-        assist = int(assist)
-        score_kda = (kill + assist ) / death
-    except (TypeError,ValueError):
-        return 0.0
-    except ZeroDivisionError:
-            return float(kill + assist)
-    else:
-        return score_kda
+# Hàm tính KDA (modular)
+def calculate_kda(kills, deaths, assists):
+    return (kills + assists) / deaths
 
 
-print("--- BẢNG XẾP HẠNG KDA ---")
-for item in data:
-    name = item[0]
-    kill = item[1]
-    death = item[2]
-    assist = item[3]
-    score_kda = calculate_kda(kill, death, assist)
-    print(f"Tuyển thủ {name} có KDA: {score_kda}")
+# Hàm xử lý chính
+def process_kda(player_stats_list):
+    print("--- BẢNG XẾP HẠNG KDA ---")
+
+    for player_data in player_stats_list:
+        player_name = player_data[0]
+        kills = player_data[1]
+        deaths = player_data[2]
+        assists = player_data[3]
+
+        try:
+            kills = int(kills)
+            deaths = int(deaths)
+            assists = int(assists)
+
+            kda = calculate_kda(kills, deaths, assists)
+
+            print(f"{player_name}: KDA = {kda}")
+
+        except ZeroDivisionError:
+            print(f"{player_name}: KDA Hoàn hảo (Perfect Game)!")
+
+        except ValueError:
+            print(f"{player_name}: Lỗi dữ liệu không hợp lệ!")
+
+        continue
+
+
+# Chạy chương trình
+process_kda(player_stats_list)
